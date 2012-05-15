@@ -74,8 +74,17 @@
     return getLargestId() + 1;
   };
 
-  getLargestId = function(keys) {
-    return _.max(keys);
+  getLargestId = function() {
+    var ids, largest, tasks;
+    if (taskListEmpty) {
+      return -1;
+    }
+    tasks = getTasksFromUI();
+    ids = _.map(tasks, function(task) {
+      return task.data("id");
+    });
+    largest = _.max(ids);
+    return largest;
   };
 
   getNewRank = function() {

@@ -84,8 +84,16 @@ taskToObject = (task) ->
 getNewId = () ->
 	return getLargestId() + 1
 
-getLargestId = (keys) ->
-	return _.max(keys)
+getLargestId = () ->
+	if taskListEmpty
+		return -1
+
+	tasks = getTasksFromUI()
+	ids = _.map(tasks, (task) ->
+		return task.data("id")
+	)
+	largest = _.max(ids)
+	return largest
 
 getNewRank = () ->
 # Purpose:	Generates a rank for a new task
