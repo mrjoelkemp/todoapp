@@ -1,37 +1,42 @@
 $ ->
 	console.log("in todoapp")
-	
+
 	$("#tasks").sortable()
 		
 	# Load tasks 
 	#loadTasks()
 	
 	# On enter press, grab the text in todoText input
+	textfield = $("#todotext")
+	
 	$("#todotext").keydown( (e) ->
-        code = e.keyCode
-        console.log("Code pressed: " + code)
-        if code == 13 or code == 10
+		code = e.keyCode
+		if code is 13
+        	# Pull the text from the textfield
+        	taskText = $("#todotext")[0].value
+        	# TODO: Create new task with pulled text
         	console.log('Enter key was pressed.')
-        e.preventDefault()
+        	console.log("Task: " + taskText)
     )
+    
+create = () ->
+	#
+	#Create li 
 
 loadTasks = () ->
 	ids = Object.keys(localStorage)
 	console.log("ids", ids)
-	if not _.isEmpty(ids)
+	if tasksExist()
 		# Show the title
 		$("#taskList #title").show()
 
 		# For each key
 			# Create a task
 
-tasks_exist = () ->
+tasksExist = () ->
 	ids = Object.keys(localStorage)
 	if not _.isEmpty(ids)
 		return true
 	else
 		return false
 
-create = () ->
-	#
-	#Create li 

@@ -19,7 +19,7 @@ body {
   color: #111111;
   margin-bottom: 10px; }
 
-input[name=todotext] {
+#todotext {
   border: 2px solid #111111;
   border-radius: 6px;
   width: 40%;
