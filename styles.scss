@@ -5,11 +5,14 @@ $white: #eee;
 body{
 	text-align: center;
 	background-color: $white;
+	font-family: "Judson", "Helvetica Neue";
 }
 
 #header{
 	width: 100%;
 	border: 1px solid blue;
+	margin-bottom: 20px;
+	margin-top: 20px;
 }
 .appName{
 	font-size: 50px;
@@ -18,7 +21,25 @@ body{
 
 #greeting{
 	width: 100%;
-	font-size: 16px;
+	font-size: 18px;
 	color: $black;
+	margin-bottom: 10px;
 }
 
+input[name=todotext]{
+	border: 2px solid $black;
+	border-radius: 6px;
+	width: 40%;
+	height: 20px;
+	color: $gray;
+	font-size: 18px;
+	text-align: center;
+}
+
+#taskList{
+	margin-top: 40px;
+	border: 1px solid green;
+	#task{
+		border: 1px solid red;
+	}
+}

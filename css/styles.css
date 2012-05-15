@@ -1,10 +1,13 @@
 body {
   text-align: center;
-  background-color: #eeeeee; }
+  background-color: #eeeeee;
+  font-family: "Judson", "Helvetica Neue"; }
 
 #header {
   width: 100%;
-  border: 1px solid blue; }
+  border: 1px solid blue;
+  margin-bottom: 20px;
+  margin-top: 20px; }
 
 .appName {
   font-size: 50px;
@@ -12,5 +15,21 @@ body {
 
 #greeting {
   width: 100%;
-  font-size: 16px;
-  color: #111111; }
+  font-size: 18px;
+  color: #111111;
+  margin-bottom: 10px; }
+
+input[name=todotext] {
+  border: 2px solid #111111;
+  border-radius: 6px;
+  width: 40%;
+  height: 20px;
+  color: #555555;
+  font-size: 18px;
+  text-align: center; }
+
+#taskList {
+  margin-top: 40px;
+  border: 1px solid green; }
+  #taskList #task {
+    border: 1px solid red; }
