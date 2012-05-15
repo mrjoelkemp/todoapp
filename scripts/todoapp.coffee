@@ -10,20 +10,22 @@ $ ->
 	textfield = $("#todotext")
 	
 	$("#todotext").keydown( (e) ->
-		code = e.keyCode
-		if code is 13
+		enterPressed = e.keyCode is 13
+		if enterPressed
         	# Pull the text from the textfield
         	text = $("#todotext")[0].value
-        	console.log("Task: " + taskText)
-        	# Reset the textfield
-        	$("#todotext")[0].value = ""
+        	console.log("Task: " + text)
+        	isBlank = text is ""
 
-        	# Create task with submitted text
-        	id = getNewId()
-        	rank = getNewRank()
-        	create(id, rank, text)
+        	if not isBlank
+	        	# Reset the textfield
+	        	$("#todotext")[0].value = ""
+
+	        	# Create task with submitted text
+	        	id = getNewId()
+	        	rank = getNewRank()
+	        	create(id, rank, text)
     )
-
 
 loadTasks = () ->
 # Precond: 	Task Structure = id, rank, text
@@ -43,7 +45,7 @@ loadTasks = () ->
 		return taskObj
 	)
 
-	# Create a task
+	# Recreate the task
 	_.each(tasks, (taskObj) ->
 		create(taskObj.id, taskObj.rank, taskObj.text)
 	)
@@ -76,14 +78,37 @@ taskToObject = (task) ->
 	json = "id": task.data("id")
 		"rank": task.data("rank")
 		"text": task.data("text")
-
 	return json
+
 # Helpers
-generateId = () ->
+getNewId = () ->
 	return getLargestId() + 1
 
 getLargestId = (keys) ->
 	return _.max(keys)
+
+getNewRank = () ->
+# Purpose:	Generates a rank for a new task
+# Notes:	New tasks are ranked last
+
+	if taskListEmpty()
+		return 1
+
+	# Extract the ranks from the children
+	tasks = getTasksFromUI()
+	ranks = _.map(tasks, (task) ->
+		return task.data("rank")
+	)
+	newRank = _.max(ranks) + 1
+	return newRank
+
+taskListEmpty = () ->
+# Purpose: 	Checks if the task list has tasks
+	tasks = getTasksFromUI()
+	return _.empty(tasks)
+
+getTasksFromUI = () ->
+	return $("#tasks").children()
 
 tasksExist = () ->
 	ids = Object.keys(localStorage)
