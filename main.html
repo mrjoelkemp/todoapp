@@ -7,6 +7,7 @@
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
     <script src='scripts/underscore-min.js'></script>
+    <script src='scripts/head.min.js'></script>
   </head>
   <body>
     <div id='header'>
@@ -21,6 +22,9 @@
       </form>
     </div>
     <div id='taskList'>
+      <div id='title' style='display:none'>
+        <span>Current Tasks:</span>
+      </div>
       <ul id='tasks'></ul>
     </div>
     <div id='footer'>
@@ -28,3 +32,8 @@
     </div>
   </body>
 </html>
+<script>
+  //<![CDATA[
+    head.js("scripts/todoapp.js", "scripts/todo.js");
+  //]]>
+</script>
