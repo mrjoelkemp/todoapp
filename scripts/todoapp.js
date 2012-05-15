@@ -47,7 +47,7 @@
     task = $("<li></li>").clone();
     task.data("id", id);
     task.data("rank", rank);
-    task.data("text", text);
+    task.html(text);
     task.appendTo("#tasks");
     return store(task);
   };
@@ -94,7 +94,7 @@
   taskListEmpty = function() {
     var tasks;
     tasks = getTasksFromUI();
-    return _.empty(tasks);
+    return _.isEmpty(tasks);
   };
 
   getTasksFromUI = function() {

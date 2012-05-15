@@ -57,7 +57,7 @@ create = (id, rank, text) ->
 	task = $("<li></li>").clone()
 	task.data("id", id)
 	task.data("rank", rank)
-	task.data("text", text)
+	task.html(text)
 	
 	# Add task to the list of tasks
 	task.appendTo("#tasks")
@@ -105,7 +105,7 @@ getNewRank = () ->
 taskListEmpty = () ->
 # Purpose: 	Checks if the task list has tasks
 	tasks = getTasksFromUI()
-	return _.empty(tasks)
+	return _.isEmpty(tasks)
 
 getTasksFromUI = () ->
 	return $("#tasks").children()
