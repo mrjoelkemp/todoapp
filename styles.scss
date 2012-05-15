@@ -7,7 +7,18 @@ body{
 	background-color: $white;
 }
 
-.appName{
-	font-weight:bold;
-	font-size: 20px;
+#header{
+	width: 100%;
+	border: 1px solid blue;
 }
+.appName{
+	font-size: 50px;
+	color: $black;
+}
+
+#greeting{
+	width: 100%;
+	font-size: 16px;
+	color: $black;
+}
+

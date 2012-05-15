@@ -2,6 +2,15 @@ body {
   text-align: center;
   background-color: #eeeeee; }
 
+#header {
+  width: 100%;
+  border: 1px solid blue; }
+
 .appName {
-  font-weight: bold;
-  font-size: 20px; }
+  font-size: 50px;
+  color: #111111; }
+
+#greeting {
+  width: 100%;
+  font-size: 16px;
+  color: #111111; }

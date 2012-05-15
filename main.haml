@@ -10,9 +10,10 @@
 
 	%body
 		#header
-			%span.appname TodoKemp
+			%span.appName TodoKemp
 		#entry
 			%form
-				Task: 
-				%input{:type => "text", :name=>"todotext"}
-				%input{:type => "submit", :value=> "Submit"}
+				#greeting
+					%span What's your task? 
+				%input.todoText{:type => "text", :name=>"todotext"}
+				%input.submitButton{:type => "submit", :value=> "Submit"}
