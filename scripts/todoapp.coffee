@@ -117,8 +117,14 @@ tasksExist = () ->
 	else
 		return false
 
+sortStopHandler = (e, ui) ->
+	# Purpose: 	Handles the sort stop event
+	# Get the dragged item
+	console.log(ui.item)
+
 $ ->
 	$("#tasks").sortable()
+				.bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
 
 	# On enter press, grab the text in todoText input
 	$("#todotext").keydown( (e) ->
