@@ -149,7 +149,7 @@ Future: 	Completed tasks should be archived into a different UI element or
   getTopNeighborRank = function(id) {
     var desired_top_neighbor, i, neighborRank, tasks, top_neighbor, _i, _ref;
     tasks = getTasksFromUI();
-    neighborRank = 0;
+    neighborRank = void 0;
     for (i = _i = 0, _ref = tasks.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
       top_neighbor = tasks[i + 1];
       if (top_neighbor === !void 0) {
@@ -186,19 +186,13 @@ Future: 	Completed tasks should be archived into a different UI element or
   };
 
   sortStopHandler = function(e, ui) {
-    var draggedTask, newRank, taskId, taskRank, tasks, tops;
-    draggedTask = $(ui.item);
-    taskRank = draggedTask.data("rank");
-    taskId = draggedTask.data("id");
+    var i, task, tasks, _i, _ref;
     tasks = getTasksFromUI();
-    newRank = getTopNeighborRank(taskId);
-    draggedTask.data("rank", newRank);
-    tasks = _.reject(tasks, function(t) {
-      return t.data("id") === taskId;
-    });
-    tops = getTopNeighbors(newRank, tasks);
-    modifyNeighborRanks(tops, -1);
-    return store(draggedTask);
+    for (i = _i = 0, _ref = tasks.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+      task = tasks[i];
+      task.data("rank", i);
+    }
+    return storeTasks(tasks);
   };
 
   dblClickHandler = function(task) {

@@ -159,7 +159,7 @@ getTopNeighborRank = (id) ->
 
 	# Change task rank to that of its new top neighbor
 	# Find the top neighbor, the one right before task in the list of children
-	neighborRank = 0
+	neighborRank = undefined
 	for i in [0 ... tasks.length]
 		top_neighbor = tasks[i + 1]
 		# Avoid the boundaries
@@ -190,35 +190,20 @@ modifyNeighborRanks = (tasks, offset) ->
 # Event Handlers	
 sortStopHandler = (e, ui) ->
 	# Purpose: 	Handles the sort stop event for a dragged task
-	# Once the task is in its new place,
-	#	get the rank of the top neighbor
-	#	change the current task's rank
-	#	change the top neighbors' ranks since they've moved up
+	# Notes:	Once the user is done sorting, we just pull the children, 
+	#			look at their ordering with the task list, and set the ranks 
+	#			to reflect their order
 	
-	# Get the dragged item
-	draggedTask = $(ui.item)
-	taskRank = draggedTask.data("rank")
-	taskId = draggedTask.data("id")
-
-	# Get neighboring tasks
+	# Pull all the children
 	tasks = getTasksFromUI()
 
-	# Change task rank to that of its new top neighbor
-	newRank = getTopNeighborRank(taskId)
-	draggedTask.data("rank", newRank)
+	# Let the order of the children in UL dictate the rank
+	for i in [0 ... tasks.length]
+		task = tasks[i]
+		task.data("rank", i)
 
-	# Exclude dragged task
-	tasks = _.reject(tasks, (t) -> t.data("id") is taskId)
-
-	# Find top neighbors (tasks with a lower rank)
-	# Note: we haven't changed the task that has our new rank, so <=
-	tops = getTopNeighbors(newRank, tasks)
-
-	# Move the top neighbors' ranks higher
-	modifyNeighborRanks(tops, -1)
-
-	# Save all tasks
-	store(draggedTask)
+	# Persist
+	storeTasks(tasks)
 
 dblClickHandler = (task) ->
 	# Purpose: 	On double click of a task, we remove that task 
