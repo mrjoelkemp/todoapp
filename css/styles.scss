@@ -15,6 +15,11 @@ body{
 	//border: 1px solid blue;
 	margin-bottom: 20px;
 	margin-top: 20px;
+
+	.appName{
+		font-size: 50px;
+		color: $black;
+	}
 }
 
 #footer{
@@ -32,6 +37,7 @@ ul{
 
 .task{
 	border: 1px solid $black;
+	border-radius: 7px;
 	padding: 5px 0;
 	width: 100%;
 	margin-left: -20px;
@@ -52,36 +58,33 @@ ul{
 	}
 }
 
+#entry{
+	#greeting{
+		width: 100%;
+		font-size: 18px;
+		color: $black;
+		margin-bottom: 10px;
+	}
 
-.appName{
-	font-size: 50px;
-	color: $black;
-}
+	#instructions{
+		font-style: italic;
+		font-size: 13px;
+		margin-bottom: 4px;
+	}
 
-#greeting{
-	width: 100%;
-	font-size: 18px;
-	color: $black;
-	margin-bottom: 10px;
-}
-
-#instructions{
-	font-style: italic;
-	font-size: 13px;
-	margin-bottom: 4px;
-}
-
-#todotext{
-	border: 2px solid $black;
-	border-radius: 6px;
-	width: 55%;
-	height: 20px;
-	color: $gray;
-	font-size: 18px;
-	text-align: center;
+	#todotext{
+		border: 2px solid $black;
+		border-radius: 6px;
+		width: 75%;
+		height: 20px;
+		color: $gray;
+		font-size: 18px;
+		text-align: center;
+	}
 }
 
 #taskList{
 	margin-top: 40px;
 	border: 1px solid $black;
+	//border-radius: 4px;
 }

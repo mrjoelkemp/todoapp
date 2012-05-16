@@ -9,6 +9,9 @@ body {
   width: 100%;
   margin-bottom: 20px;
   margin-top: 20px; }
+  #header .appName {
+    font-size: 50px;
+    color: #111111; }
 
 #footer {
   width: 100%;
@@ -21,6 +24,7 @@ ul {
 
 .task {
   border: 1px solid #111111;
+  border-radius: 7px;
   padding: 5px 0;
   width: 100%;
   margin-left: -20px;
@@ -35,25 +39,19 @@ ul {
   .task.black {
     border: 1px solid black; }
 
-.appName {
-  font-size: 50px;
-  color: #111111; }
-
-#greeting {
+#entry #greeting {
   width: 100%;
   font-size: 18px;
   color: #111111;
   margin-bottom: 10px; }
-
-#instructions {
+#entry #instructions {
   font-style: italic;
   font-size: 13px;
   margin-bottom: 4px; }
-
-#todotext {
+#entry #todotext {
   border: 2px solid #111111;
   border-radius: 6px;
-  width: 55%;
+  width: 75%;
   height: 20px;
   color: #555555;
   font-size: 18px;
