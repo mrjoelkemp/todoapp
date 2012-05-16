@@ -25,18 +25,24 @@
   };
 
   create = function(id, rank, text) {
-    var colorClasses, task;
+    var task;
     task = $("<li></li>").clone();
     task.data("id", id).data("rank", rank).html(text).addClass("task").dblclick(function() {
-      return this.remove();
+      return dblClickHandler(this);
     });
-    colorClasses = ["green", "red", "blue", "black", "green", "red", "blue", "black"];
-    task.addClass(colorClasses[rank % colorClasses.length]);
     return task;
   };
 
   ({
-    dblClickHandler: function(task) {}
+    dblClickHandler: function(task) {
+      var bottoms, id, rank, tasks;
+      id = task.data("id");
+      rank = task.data("rank");
+      tasks = getTasksFromUI();
+      bottoms = getBottomNeighbors(rank, tasks);
+      modifyNeighborRanks(bottoms, -1);
+      return task.remove();
+    }
   });
 
   appendTasksToTaskList = function(tasks) {
@@ -55,16 +61,6 @@
     id = taskJSON.id;
     task = JSON.stringify(taskJSON);
     return localStorage.setItem(id, task);
-  };
-
-  taskToObject = function(task) {
-    var json;
-    json = {
-      "id": task.data("id"),
-      "rank": task.data("rank"),
-      "text": task.html()
-    };
-    return json;
   };
 
   getNewId = function() {
@@ -102,6 +98,16 @@
     tasks = getTasksFromUI();
     isEmpty = tasks.length === 0;
     return isEmpty;
+  };
+
+  taskToObject = function(task) {
+    var json;
+    json = {
+      "id": task.data("id"),
+      "rank": task.data("rank"),
+      "text": task.html()
+    };
+    return json;
   };
 
   getTasksFromUI = function() {

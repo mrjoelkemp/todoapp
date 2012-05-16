@@ -38,19 +38,29 @@ create = (id, rank, text) ->
 		.html(text)
 		.addClass("task")
 		# On double-click, delete items
-		.dblclick(() -> 
-			this.remove()
-		)
+		.dblclick(() -> dblClickHandler(this))
 
 	# DEBUG: colors for rank
-	colorClasses = ["green", "red", "blue", "black", "green", "red", "blue", "black"]
-	task.addClass(colorClasses[rank % colorClasses.length])
+	#colorClasses = ["green", "red", "blue", "black", "green", "red", "blue", "black"]
+	#task.addClass(colorClasses[rank % colorClasses.length])
 
 	return task
 
-
 dblClickHandler: (task) ->
-	
+	# Purpose: 	On double click of a task, we remove that task 
+	#			and move those below it up in rank
+
+	id = task.data("id")
+	rank = task.data("rank")
+
+	# Get bottom neighbors
+	tasks = getTasksFromUI()
+	bottoms = getBottomNeighbors(rank, tasks)
+
+	# Decrease their ranks by one (move them up)
+	modifyNeighborRanks(bottoms, -1)
+
+	task.remove()
 
 appendTasksToTaskList = (tasks) ->
 	# Append each element of the list to the task list
@@ -67,14 +77,6 @@ store = (task) ->
 	task = JSON.stringify(taskJSON)
 	localStorage.setItem(id, task)
 
-taskToObject = (task) ->
-	# Precond: 	Takes in a Jquery obj representing the task
-	# Notes:	We'll look at the hidden data to populate the object
-	json = 
-		"id": task.data("id"),
-		"rank": task.data("rank"),
-		"text": task.html()
-	return json
 
 # Helpers
 getNewId = () ->
@@ -114,6 +116,15 @@ taskListEmpty = () ->
 	tasks = getTasksFromUI()
 	isEmpty = tasks.length == 0
 	return isEmpty
+
+taskToObject = (task) ->
+	# Precond: 	Takes in a Jquery obj representing the task
+	# Notes:	We'll look at the hidden data to populate the object
+	json = 
+		"id": task.data("id"),
+		"rank": task.data("rank"),
+		"text": task.html()
+	return json
 
 getTasksFromUI = () ->
 	# Purpose: 	Grabs the li elements within the tasks ul
