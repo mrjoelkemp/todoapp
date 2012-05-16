@@ -8,6 +8,8 @@ Tech Used: Coffeescript, Underscore.js, Jquery UI, HTML5 Local Storage, HAML/SAS
 Fiddle: http://jsfiddle.net/mrjoelkemp/kbHKZ/2/embedded/result/
 
 ## Notes
+This app relies on HTML5 Local Storage for persistence. Hence, only modern browsers can be used.
+
 The app only supports Create and Delete operations. To update, you must delete the task and create a new one.
 
 Upon completion of a task, simply delete it.
