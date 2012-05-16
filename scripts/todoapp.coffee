@@ -56,8 +56,9 @@ create = (id, rank, text) ->
 	# Create li 
 	task = $("<li></li>").clone()
 	task.data("id", id)
-	task.data("rank", rank)
-	task.html(text)
+		.data("rank", rank)
+		.html(text)
+		.addClass("task")
 	
 	# Add task to the list of tasks
 	task.appendTo("#tasks")
@@ -106,7 +107,7 @@ getNewRank = () ->
 
 	# Extract the ranks from the children
 	tasks = getTasksFromUI()
-	
+
 	ranks = _.map(tasks, (task) ->
 		return task.data("rank")
 	)

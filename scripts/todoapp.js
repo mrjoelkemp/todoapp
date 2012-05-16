@@ -45,9 +45,7 @@
   create = function(id, rank, text) {
     var task, taskObj;
     task = $("<li></li>").clone();
-    task.data("id", id);
-    task.data("rank", rank);
-    task.html(text);
+    task.data("id", id).data("rank", rank).html(text).addClass("task");
     task.appendTo("#tasks");
     taskObj = taskToObject(task);
     return store(taskObj);
