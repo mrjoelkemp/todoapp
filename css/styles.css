@@ -7,7 +7,6 @@ body {
 
 #header {
   width: 100%;
-  border: 1px solid blue;
   margin-bottom: 20px;
   margin-top: 20px; }
 
@@ -18,14 +17,14 @@ body {
 
 ul {
   text-decoration: none;
-  list-style-type: none;
-  border: 1px solid green; }
+  list-style-type: none; }
 
 .task {
   border: 1px solid #111111;
   padding: 5px 0;
   width: 100%;
-  margin: 0 auto;
+  margin-left: -20px;
+  margin-bottom: 10px;
   font-size: 20px; }
   .task.green {
     border: 1px solid green; }
@@ -46,10 +45,15 @@ ul {
   color: #111111;
   margin-bottom: 10px; }
 
+#instructions {
+  font-style: italic;
+  font-size: 13px;
+  margin-bottom: 4px; }
+
 #todotext {
   border: 2px solid #111111;
   border-radius: 6px;
-  width: 40%;
+  width: 55%;
   height: 20px;
   color: #555555;
   font-size: 18px;
@@ -57,6 +61,4 @@ ul {
 
 #taskList {
   margin-top: 40px;
-  border: 1px solid green; }
-  #taskList #task {
-    border: 1px solid red; }
+  border: 1px solid #111111; }

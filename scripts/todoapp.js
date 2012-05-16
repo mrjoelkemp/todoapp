@@ -202,6 +202,7 @@
     $("#tasks").sortable().bind("sortstop", function(e, ui) {
       return sortStopHandler(e, ui);
     });
+    $("#todotext").focus();
     $("#todotext").keydown(function(e) {
       var enterPressed, id, isBlank, rank, task, text;
       enterPressed = e.keyCode === 13;

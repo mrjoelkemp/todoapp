@@ -8,6 +8,11 @@
     <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
     <script src='scripts/underscore-min.js'></script>
     <script src='scripts/head.min.js'></script>
+    <script>
+      //<![CDATA[
+        head.js("scripts/todoapp.js", "scripts/todo.js");
+      //]]>
+    </script>
   </head>
   <body>
     <div id='header'>
@@ -17,6 +22,9 @@
       <form action='#' method='get' name='taskForm'>
         <div id='greeting'>
           <span>What's your task?</span>
+        </div>
+        <div id='instructions'>
+          <span>Enter key inserts tasks. Double-click deletes tasks.</span>
         </div>
         <input class='todoText' id='todotext' type='text'>
       </form>
@@ -37,8 +45,3 @@
     </div>
   </body>
 </html>
-<script>
-  //<![CDATA[
-    head.js("scripts/todoapp.js", "scripts/todo.js");
-  //]]>
-</script>

@@ -227,8 +227,9 @@ sortStopHandler = (e, ui) ->
 	store(draggedTask)
 
 $ ->
-	$("#tasks").sortable()
-				.bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
+	$("#tasks").sortable().bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
+
+	$("#todotext").focus()
 
 	# On enter press, grab the text in todoText input
 	$("#todotext").keydown( (e) ->

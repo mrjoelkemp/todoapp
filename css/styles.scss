@@ -12,7 +12,7 @@ body{
 
 #header{
 	width: 100%;
-	border: 1px solid blue;
+	//border: 1px solid blue;
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
@@ -26,7 +26,7 @@ body{
 ul{
 	text-decoration: none;
 	list-style-type: none;
-	border: 1px solid green;
+	//border: 1px solid green;
 	
 }
 
@@ -34,7 +34,8 @@ ul{
 	border: 1px solid $black;
 	padding: 5px 0;
 	width: 100%;
-	margin: 0 auto;
+	margin-left: -20px;
+	margin-bottom: 10px;
 	font-size: 20px;
 	// Debug colors
 	&.green{
@@ -64,10 +65,16 @@ ul{
 	margin-bottom: 10px;
 }
 
+#instructions{
+	font-style: italic;
+	font-size: 13px;
+	margin-bottom: 4px;
+}
+
 #todotext{
 	border: 2px solid $black;
 	border-radius: 6px;
-	width: 40%;
+	width: 55%;
 	height: 20px;
 	color: $gray;
 	font-size: 18px;
@@ -76,8 +83,5 @@ ul{
 
 #taskList{
 	margin-top: 40px;
-	border: 1px solid green;
-	#task{
-		border: 1px solid red;
-	}
+	border: 1px solid $black;
 }
