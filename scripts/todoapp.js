@@ -5,6 +5,11 @@ Author: 	Joel Kemp, @mrjoelkemp
 Project: 	Todo App 
 File: 		todoapp.coffee
 Purpose: 	Main script for the todo app.
+Notes:		App only supports Create and Delete. 
+			To update, you must delete the task and create a new one.
+			Upon completion of a task, simply delete it.
+Future: 	Completed tasks should be archived into a different UI element or
+			use a strikethrough and add it to the bottom of the task list.
 */
 
 
@@ -46,17 +51,6 @@ Purpose: 	Main script for the todo app.
       return dblClickHandler(task);
     }).addClass("ui-state-default");
     return task;
-  };
-
-  dblClickHandler = function(task) {
-    var bottoms, id, rank, tasks;
-    id = task.data("id");
-    rank = task.data("rank");
-    tasks = getTasksFromUI();
-    bottoms = getBottomNeighbors(rank, tasks);
-    modifyNeighborRanks(bottoms, -1);
-    deleteFromStorage(task);
-    return task.remove();
   };
 
   appendTasksToTaskList = function(tasks) {
@@ -205,6 +199,17 @@ Purpose: 	Main script for the todo app.
     tops = getTopNeighbors(newRank, tasks);
     modifyNeighborRanks(tops, -1);
     return store(draggedTask);
+  };
+
+  dblClickHandler = function(task) {
+    var bottoms, id, rank, tasks;
+    id = task.data("id");
+    rank = task.data("rank");
+    tasks = getTasksFromUI();
+    bottoms = getBottomNeighbors(rank, tasks);
+    modifyNeighborRanks(bottoms, -1);
+    deleteFromStorage(task);
+    return task.remove();
   };
 
   $(function() {

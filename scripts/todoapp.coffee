@@ -3,6 +3,11 @@ Author: 	Joel Kemp, @mrjoelkemp
 Project: 	Todo App 
 File: 		todoapp.coffee
 Purpose: 	Main script for the todo app.
+Notes:		App only supports Create and Delete. 
+			To update, you must delete the task and create a new one.
+			Upon completion of a task, simply delete it.
+Future: 	Completed tasks should be archived into a different UI element or
+			use a strikethrough and add it to the bottom of the task list.
 ###
 
 loadFromStorage = () ->
@@ -57,25 +62,6 @@ create = (id, rank, text) ->
 
 	return task
 
-dblClickHandler = (task) ->
-	# Purpose: 	On double click of a task, we remove that task 
-	#			and move those below it up in rank
-	
-	id = task.data("id")
-	rank = task.data("rank")
-
-	# Get bottom neighbors
-	tasks = getTasksFromUI()
-	bottoms = getBottomNeighbors(rank, tasks)
-
-	# Decrease their ranks by one (move them up)
-	modifyNeighborRanks(bottoms, -1)
-	
-	# Remove from storage
-	deleteFromStorage(task)
-	# Remove from the task list
-	task.remove()
-
 appendTasksToTaskList = (tasks) ->
 	# Append each element of the list to the task list
 	_.each(tasks, (t) -> appendToTaskList(t))
@@ -94,7 +80,6 @@ store = (task) ->
 	id = taskJSON.id
 	task = JSON.stringify(taskJSON)
 	localStorage.setItem(id, task)
-
 
 # Helpers
 getNewId = () ->
@@ -201,7 +186,8 @@ modifyNeighborRanks = (tasks, offset) ->
 	_.each(tasks, (t) -> t.data("rank", t.data("rank") + offset))
 	# Save the modified neighbors
 	storeTasks(tasks)
-	
+
+# Event Handlers	
 sortStopHandler = (e, ui) ->
 	# Purpose: 	Handles the sort stop event for a dragged task
 	# Once the task is in its new place,
@@ -234,6 +220,26 @@ sortStopHandler = (e, ui) ->
 	# Save all tasks
 	store(draggedTask)
 
+dblClickHandler = (task) ->
+	# Purpose: 	On double click of a task, we remove that task 
+	#			and move those below it up in rank
+	
+	id = task.data("id")
+	rank = task.data("rank")
+
+	# Get bottom neighbors
+	tasks = getTasksFromUI()
+	bottoms = getBottomNeighbors(rank, tasks)
+
+	# Decrease their ranks by one (move them up)
+	modifyNeighborRanks(bottoms, -1)
+	
+	# Remove from storage
+	deleteFromStorage(task)
+	# Remove from the task list
+	task.remove()
+
+# On Dom Load
 $ ->
 	$("#tasks").sortable().bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
 
