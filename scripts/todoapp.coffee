@@ -37,14 +37,23 @@ create = (id, rank, text) ->
 		.data("rank", rank)
 		.html(text)
 		.addClass("task")
-	
+		# On double-click, delete items
+		.dblclick(() -> 
+			this.remove()
+		)
+
 	# DEBUG: colors for rank
-	colorClasses = ["none", "green", "red", "blue", "black", "green", "red", "blue", "black"]
-	task.addClass(colorClasses[rank])
+	colorClasses = ["green", "red", "blue", "black", "green", "red", "blue", "black"]
+	task.addClass(colorClasses[rank % colorClasses.length])
 
 	return task
 
+
+dblClickHandler: (task) ->
+	
+
 appendTasksToTaskList = (tasks) ->
+	# Append each element of the list to the task list
 	_.each(tasks, (t) -> appendToTaskList(t))
 
 appendToTaskList = (task) ->
@@ -69,6 +78,7 @@ taskToObject = (task) ->
 
 # Helpers
 getNewId = () ->
+	# New ids auto increment
 	return getLargestId() + 1
 
 getLargestId = () ->
@@ -140,7 +150,22 @@ getTopNeighborRank = (id) ->
 		top_neighbor = tasks[i + 1].data("id") == id
 		if top_neighbor
 			neighborRank = tasks[i].data("rank")
-			return neighborRank
+			
+	return neighborRank
+
+getTopNeighbors = (rank, tasks) ->
+	# Find top neighbors (tasks with a lower or equal rank)
+	tops = _.filter(tasks, (t) -> return t.data("rank") <= rank)
+	return tops
+
+getBottomNeighbors = (rank, tasks) ->
+	# Find top neighbors (tasks with a larger rank)
+	bottoms = _.filter(tasks, (t) -> return t.data("rank") > rank)
+	return bottoms
+
+modifyNeighborRanks = (tasks, offset) ->
+	# Purpose: 	Either increases or decreases the ranks of the passed tasks by the offset
+	_.each(tasks, (t) -> t.data("rank", t.data("rank") - offset))
 
 sortStopHandler = (e, ui) ->
 	# Purpose: 	Handles the sort stop event for a dragged task
@@ -148,7 +173,7 @@ sortStopHandler = (e, ui) ->
 	#	get the rank of the top neighbor
 	#	change the current task's rank
 	#	change the top neighbors' ranks since they've moved up
-	debugger
+	
 	# Get the dragged item
 	draggedTask = $(ui.item)
 	taskRank = draggedTask.data("rank")
@@ -166,10 +191,10 @@ sortStopHandler = (e, ui) ->
 
 	# Find top neighbors (tasks with a lower rank)
 	# Note: we haven't changed the task that has our new rank, so <=
-	tops = _.filter(tasks, (t) -> return t.data("rank") <= newRank)
+	tops = getTopNeighbors(newRank, tasks)
 
 	# Move the top neighbors' ranks higher
-	_.each(tops, (t) -> t.data("rank", t.data("rank") - 1))
+	modifyNeighborRanks(tops, -1)
 
 	# Save all tasks
 	store(draggedTask)
