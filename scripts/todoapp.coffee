@@ -54,7 +54,7 @@ create = (id, rank, text) ->
 dblClickHandler = (task) ->
 	# Purpose: 	On double click of a task, we remove that task 
 	#			and move those below it up in rank
-	debugger
+	
 	id = task.data("id")
 	rank = task.data("rank")
 

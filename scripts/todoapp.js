@@ -40,7 +40,6 @@
   };
 
   dblClickHandler = function(task) {
-    debugger;
     var bottoms, id, rank, tasks;
     id = task.data("id");
     rank = task.data("rank");
