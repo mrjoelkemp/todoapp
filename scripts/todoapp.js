@@ -27,12 +27,14 @@
     task.appendTo("#tasks");
     if (persist) {
       taskObj = taskToObject(task);
-      return store(taskObj);
+      store(taskObj);
     }
+    return task;
   };
 
-  store = function(taskJSON) {
-    var id, task;
+  store = function(task) {
+    var id, taskJSON;
+    taskJSON = taskToObject(task);
     id = taskJSON.id;
     task = JSON.stringify(taskJSON);
     return localStorage.setItem(id, task);
@@ -108,7 +110,8 @@
   };
 
   sortStopHandler = function(e, ui) {
-    return console.log(ui.item);
+    var item;
+    return item = $(ui.item);
   };
 
   $(function() {

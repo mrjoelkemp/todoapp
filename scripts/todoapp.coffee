@@ -19,6 +19,7 @@ loadFromStorage = () ->
 	)
 
 	# Recreate the task and append to tasklist but don't persist
+	# Get the json objects, sort by rank, add to task list
 	_.each(tasks, (taskObj) ->
 		create(taskObj.id, taskObj.rank, taskObj.text, false)
 	)
@@ -42,9 +43,11 @@ create = (id, rank, text, persist) ->
 		taskObj = taskToObject(task)
 		store(taskObj)
 
-store = (taskJSON) ->
+	return task
+
+store = (task) ->
 	# Purpose: 	Persists the string representation of the passed obj to local storage
-	# Precond: 	Takes in a JSON obj representing the string
+	taskJSON = taskToObject(task)
 	id = taskJSON.id
 	task = JSON.stringify(taskJSON)
 	localStorage.setItem(id, task)
@@ -119,8 +122,11 @@ tasksExist = () ->
 
 sortStopHandler = (e, ui) ->
 	# Purpose: 	Handles the sort stop event
+	
 	# Get the dragged item
-	console.log(ui.item)
+	item = $(ui.item)
+
+	#Give my upper neighbor my old rank
 
 $ ->
 	$("#tasks").sortable()
