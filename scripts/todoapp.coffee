@@ -20,11 +20,14 @@ loadFromStorage = () ->
 
 	# Recreate the task and append to tasklist but don't persist
 	# Get the json objects, sort by rank, add to task list
-	_.each(tasks, (taskObj) ->
-		create(taskObj.id, taskObj.rank, taskObj.text, false)
+	objs = _.map(tasks, (taskObj) ->
+		return create(taskObj.id, taskObj.rank, taskObj.text)
 	)
 
-create = (id, rank, text, persist) ->
+	ranked_objs = _.sortBy(objs, (o) -> return o.data("rank"))
+	appendTasksToTaskList(ranked_objs)
+
+create = (id, rank, text) ->
 	# Purpose: 	Creates a Jquery obj representing the task, adds it to the UI, 
 	#			and persists if necessary
 	# Notes:	Doing all of this here for ease.
@@ -35,15 +38,14 @@ create = (id, rank, text, persist) ->
 		.html(text)
 		.addClass("task")
 	
+	return task
+
+appendTasksToTaskList = (tasks) ->
+	_.each(tasks, (t) -> appendToTaskList(t))
+
+appendToTaskList = (task) ->
 	# Add task to the list of tasks
 	task.appendTo("#tasks")
-
-	# Persist, if necessary
-	if persist
-		taskObj = taskToObject(task)
-		store(taskObj)
-
-	return task
 
 store = (task) ->
 	# Purpose: 	Persists the string representation of the passed obj to local storage
@@ -120,13 +122,54 @@ tasksExist = () ->
 	else
 		return false
 
+getTopNeighborRank = (id) ->
+	# Purpose: 	Gets the rank of the task above the task with the passed id
+	# Note:		This is known as a "top neighbor"
+
+	# Get neighboring tasks
+	tasks = getTasksFromUI()
+
+	# Change task rank to that of its new top neighbor
+	# Find the top neighbor, the one right before task in the list of children
+	neighborRank = 0
+	for i in [0 ... tasks.length]
+		top_neighbor = tasks[i + 1] == taskId
+		if top_neighbor
+			neighborRank = task[i].data("rank")
+			return neighborRank
+
 sortStopHandler = (e, ui) ->
-	# Purpose: 	Handles the sort stop event
+	# Purpose: 	Handles the sort stop event for a dragged task
+	# Once the task is in its new place,
+	#	get the rank of the top neighbor
+	#	change the current task's rank
+	#	change the top neighbors' ranks since they've moved up
 	
 	# Get the dragged item
-	item = $(ui.item)
+	draggedTask = $(ui.item)
+	taskRank = draggedTask.data("rank")
+	taskId = draggedTask.data("id")
 
-	#Give my upper neighbor my old rank
+	# Get neighboring tasks
+	tasks = getTasksFromUI()
+
+	# Change task rank to that of its new top neighbor
+	newRank = getTopNeighborRank(taskId)
+	task.data("rank", newRank)
+
+	# Exclude dragged task
+	tasks = _.reject(tasks, (t) -> t.data("id") is taskId)
+
+	# Find top neighbors (tasks with a lower rank)
+	# Note: we haven't changed the task that has our new rank, so <=
+	tops = _.filter(tasks, (t) -> return t.data("rank") <= newRank)
+
+	# Move the top neighbors' ranks higher
+	_.each(tops, (t) -> t.data("rank", t.data("rank") - 1))
+
+	# Save all tasks
+	store(draggedTask)
+	_.each(tasks, (t) -> store(t))
 
 $ ->
 	$("#tasks").sortable()
