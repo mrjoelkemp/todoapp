@@ -21,7 +21,7 @@ $ ->
 	        	# Reset the textfield
 	        	$("#todotext")[0].value = ""
 
-	        	# Create task with submitted text
+	        	# Create task with submitted text and persist
 	        	id = getNewId()
 	        	rank = getNewRank()
 	        	create(id, rank, text, true)
@@ -45,14 +45,14 @@ loadTasks = () ->
 		return taskObj
 	)
 
-	# Recreate the task
+	# Recreate the task but don't persist
 	_.each(tasks, (taskObj) ->
 		create(taskObj.id, taskObj.rank, taskObj.text, false)
 	)
 
 create = (id, rank, text, persist = false) ->
 # Purpose: 	Creates a Jquery obj representing the task, adds it to the UI, and persists if necessary
-# Notes:	Doing all of this here 
+# Notes:	Doing all of this here for ease.
 	# Create li 
 	task = $("<li></li>").clone()
 	task.data("id", id)
