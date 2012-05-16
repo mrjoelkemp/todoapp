@@ -98,7 +98,7 @@ getLargestId = () ->
 getNewRank = () ->
 # Purpose:	Generates a rank for a new task
 # Notes:	New tasks are ranked last
-
+	debugger
 	if taskListEmpty()
 		return 1
 
@@ -116,7 +116,8 @@ taskListEmpty = () ->
 	return _.isEmpty(tasks)
 
 getTasksFromUI = () ->
-	return $("#tasks").children()
+	children = $("#tasks").children()
+	return children
 
 tasksExist = () ->
 	ids = Object.keys(localStorage)

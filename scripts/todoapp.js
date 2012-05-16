@@ -88,6 +88,7 @@
   };
 
   getNewRank = function() {
+    debugger;
     var newRank, ranks, tasks;
     if (taskListEmpty()) {
       return 1;
@@ -107,7 +108,9 @@
   };
 
   getTasksFromUI = function() {
-    return $("#tasks").children();
+    var children;
+    children = $("#tasks").children();
+    return children;
   };
 
   tasksExist = function() {

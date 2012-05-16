@@ -6,6 +6,8 @@ body{
 	text-align: center;
 	background-color: $white;
 	font-family: "Judson", "Helvetica Neue";
+	width: 50%;
+	margin: 0 auto;
 }
 
 #header{
@@ -14,6 +16,14 @@ body{
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
+
+#footer{
+	width: 100%;
+	margin-top: 20px;
+	text-align: center;
+	
+}
+
 .appName{
 	font-size: 50px;
 	color: $black;
