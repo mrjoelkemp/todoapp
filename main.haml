@@ -15,13 +15,11 @@
 		#header
 			%span.appName TodoKemp
 		#entry
-			%form{:name=>"taskForm", :action=>"#", :method=>"get"}
-				#greeting
-					%span What's your task? 
-				#instructions
-					%span Enter-key inserts tasks. Double-click deletes tasks.
-				%input.todoText{:type => "text", :id=>"todotext"}
-				-#%input.submitButton{:type => "submit", :value=> "Submit"}
+			#greeting
+				%span What's your task? 
+			#instructions
+				%span Enter-key inserts tasks. Double-click deletes tasks.
+			%input.todoText{:type => "text", :id=>"todotext"}
 
 		#taskList
 			#title{:style=>"display:none"}
