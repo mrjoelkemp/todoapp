@@ -15,7 +15,10 @@ body{
 	//border: 1px solid blue;
 	margin-bottom: 20px;
 	margin-top: 20px;
+	background-color: white;
+	border: 1px solid $black;
 
+	border-radius: 10px;
 	.appName{
 		font-size: 50px;
 		color: $black;
@@ -32,30 +35,6 @@ ul{
 	text-decoration: none;
 	list-style-type: none;
 	//border: 1px solid green;
-	
-}
-
-.task{
-	border: 1px solid $black;
-	border-radius: 7px;
-	padding: 5px 0;
-	width: 100%;
-	margin-left: -20px;
-	margin-bottom: 10px;
-	font-size: 20px;
-	// Debug colors
-	&.green{
-		border: 1px solid green;
-	}
-	&.red{
-		border: 1px solid red;
-	}
-	&.blue{
-		border: 1px solid blue;
-	}
-	&.black{
-		border: 1px solid black;
-	}
 }
 
 #entry{
@@ -85,6 +64,38 @@ ul{
 
 #taskList{
 	margin-top: 40px;
+	background-color: white;
 	border: 1px solid $black;
 	//border-radius: 4px;
+ 	#title{
+ 		font-size: 17px;
+ 		color: $black;
+ 		font-weight: bold;
+ 		margin-bottom: 5px;
+ 		margin-top: 5px;
+ 	}
+ 	.task{
+		border: 1px solid $black;
+		background-color: $white;
+		border-radius: 7px;
+		padding: 5px 0;
+		width: 100%;
+		margin-left: -20px;
+		margin-bottom: 10px;
+		font-size: 20px;
+		// Debug colors
+		&.green{
+			border: 1px solid green;
+		}
+		&.red{
+			border: 1px solid red;
+		}
+		&.blue{
+			border: 1px solid blue;
+		}
+		&.black{
+			border: 1px solid black;
+		}
+	}
+
 }

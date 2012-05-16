@@ -8,7 +8,10 @@ body {
 #header {
   width: 100%;
   margin-bottom: 20px;
-  margin-top: 20px; }
+  margin-top: 20px;
+  background-color: white;
+  border: 1px solid #111111;
+  border-radius: 10px; }
   #header .appName {
     font-size: 50px;
     color: #111111; }
@@ -21,23 +24,6 @@ body {
 ul {
   text-decoration: none;
   list-style-type: none; }
-
-.task {
-  border: 1px solid #111111;
-  border-radius: 7px;
-  padding: 5px 0;
-  width: 100%;
-  margin-left: -20px;
-  margin-bottom: 10px;
-  font-size: 20px; }
-  .task.green {
-    border: 1px solid green; }
-  .task.red {
-    border: 1px solid red; }
-  .task.blue {
-    border: 1px solid blue; }
-  .task.black {
-    border: 1px solid black; }
 
 #entry #greeting {
   width: 100%;
@@ -59,4 +45,28 @@ ul {
 
 #taskList {
   margin-top: 40px;
+  background-color: white;
   border: 1px solid #111111; }
+  #taskList #title {
+    font-size: 17px;
+    color: #111111;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 5px; }
+  #taskList .task {
+    border: 1px solid #111111;
+    background-color: #eeeeee;
+    border-radius: 7px;
+    padding: 5px 0;
+    width: 100%;
+    margin-left: -20px;
+    margin-bottom: 10px;
+    font-size: 20px; }
+    #taskList .task.green {
+      border: 1px solid green; }
+    #taskList .task.red {
+      border: 1px solid red; }
+    #taskList .task.blue {
+      border: 1px solid blue; }
+    #taskList .task.black {
+      border: 1px solid black; }
