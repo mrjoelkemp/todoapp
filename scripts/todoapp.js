@@ -35,7 +35,7 @@
     task = $("<li></li>").clone();
     task.data("id", id).data("rank", rank).html(text).addClass("task").dblclick(function() {
       return dblClickHandler(task);
-    });
+    }).addClass("ui-state-default");
     return task;
   };
 

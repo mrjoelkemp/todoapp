@@ -42,6 +42,7 @@ create = (id, rank, text) ->
 		.addClass("task")
 		# On double-click, delete items
 		.dblclick(() -> dblClickHandler(task))
+		.addClass("ui-state-default")
 
 	# DEBUG: colors for rank
 	#colorClasses = ["green", "red", "blue", "black", "green", "red", "blue", "black"]
