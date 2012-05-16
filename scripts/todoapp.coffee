@@ -106,6 +106,7 @@ getNewRank = () ->
 
 	# Extract the ranks from the children
 	tasks = getTasksFromUI()
+	
 	ranks = _.map(tasks, (task) ->
 		return task.data("rank")
 	)
@@ -120,7 +121,17 @@ taskListEmpty = () ->
 	return isEmpty
 
 getTasksFromUI = () ->
+# Purpose: 	Grabs the li elements within the tasks ul
+# Returns: 	A list of Jquery objects containing the li elements
 	children = $("#tasks").children()
+	
+	if children.length == 0
+		return []
+
+	# Convert the li elements to Jquery objects
+	children = _.map(children, (c) ->
+		return $(c)
+	)
 	return children
 
 tasksExist = () ->

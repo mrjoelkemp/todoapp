@@ -110,6 +110,12 @@
   getTasksFromUI = function() {
     var children;
     children = $("#tasks").children();
+    if (children.length === 0) {
+      return [];
+    }
+    children = _.map(children, function(c) {
+      return $(c);
+    });
     return children;
   };
 
