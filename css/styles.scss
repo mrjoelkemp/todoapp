@@ -23,10 +23,21 @@ body{
 	text-align: center;
 }
 
+ul{
+	text-decoration: none;
+	list-style-type: none;
+	border: 1px solid green;
+	
+}
+
 .task{
 	border: 1px solid $black;
 	padding: 5px 0;
+	width: 100%;
+	margin: 0 auto;
+	font-size: 20px;
 }
+
 
 .appName{
 	font-size: 50px;
