@@ -5,7 +5,7 @@ Author: Joel Kemp, @mrjoelkemp
 
 Tech Used: Coffeescript, Underscore.js, Jquery UI, HTML5 Local Storage, HAML/SASS, and Head.js.
 
-Fiddle: http://jsfiddle.net/mrjoelkemp/kbHKZ/2/embedded/result/
+Fiddle: http://jsfiddle.net/mrjoelkemp/kbHKZ/9/embedded/result/
 
 ## Notes
 This app relies on HTML5 Local Storage for persistence. Hence, only modern browsers can be used.
