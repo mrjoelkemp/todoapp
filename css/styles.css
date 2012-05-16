@@ -27,6 +27,14 @@ ul {
   width: 100%;
   margin: 0 auto;
   font-size: 20px; }
+  .task.green {
+    border: 1px solid green; }
+  .task.red {
+    border: 1px solid red; }
+  .task.blue {
+    border: 1px solid blue; }
+  .task.black {
+    border: 1px solid black; }
 
 .appName {
   font-size: 50px;

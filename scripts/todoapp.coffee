@@ -38,6 +38,10 @@ create = (id, rank, text) ->
 		.html(text)
 		.addClass("task")
 	
+	# DEBUG: colors for rank
+	colorClasses = ["none", "green", "red", "blue", "black", "green", "red", "blue", "black"]
+	task.addClass(colorClasses[rank])
+
 	return task
 
 appendTasksToTaskList = (tasks) ->
@@ -133,7 +137,7 @@ getTopNeighborRank = (id) ->
 	# Find the top neighbor, the one right before task in the list of children
 	neighborRank = 0
 	for i in [0 ... tasks.length]
-		top_neighbor = tasks[i + 1] == taskId
+		top_neighbor = tasks[i + 1].data("id") == id
 		if top_neighbor
 			neighborRank = task[i].data("rank")
 			return neighborRank
@@ -144,7 +148,7 @@ sortStopHandler = (e, ui) ->
 	#	get the rank of the top neighbor
 	#	change the current task's rank
 	#	change the top neighbors' ranks since they've moved up
-	
+	debugger
 	# Get the dragged item
 	draggedTask = $(ui.item)
 	taskRank = draggedTask.data("rank")

@@ -25,9 +25,11 @@
   };
 
   create = function(id, rank, text) {
-    var task;
+    var colorClasses, task;
     task = $("<li></li>").clone();
     task.data("id", id).data("rank", rank).html(text).addClass("task");
+    colorClasses = ["none", "green", "red", "blue", "black", "green", "red", "blue", "black"];
+    task.addClass(colorClasses[rank]);
     return task;
   };
 
@@ -123,7 +125,7 @@
     tasks = getTasksFromUI();
     neighborRank = 0;
     for (i = _i = 0, _ref = tasks.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-      top_neighbor = tasks[i + 1] === taskId;
+      top_neighbor = tasks[i + 1].data("id") === id;
       if (top_neighbor) {
         neighborRank = task[i].data("rank");
         return neighborRank;
@@ -132,6 +134,7 @@
   };
 
   sortStopHandler = function(e, ui) {
+    debugger;
     var draggedTask, newRank, taskId, taskRank, tasks, tops;
     draggedTask = $(ui.item);
     taskRank = draggedTask.data("rank");
