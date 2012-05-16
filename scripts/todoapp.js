@@ -14,7 +14,7 @@ Future: 	Completed tasks should be archived into a different UI element or
 
 
 (function() {
-  var appendTasksToTaskList, appendToTaskList, blurHandler, create, dblClickHandler, dblClickInlineHandler, deleteFromStorage, getBottomNeighbors, getLargestId, getNewId, getNewRank, getTasksFromUI, getTopNeighborRank, getTopNeighbors, loadFromStorage, modifyNeighborRanks, sortStopHandler, store, storeTasks, taskListEmpty, taskToObject, tasksExist;
+  var appendTasksToTaskList, appendToTaskList, blurHandler, create, dblClickHandler, dblClickInlineHandler, deleteFromStorage, getBottomNeighbors, getLargestId, getNewId, getNewRank, getTaskFromID, getTasksFromUI, getTopNeighborRank, getTopNeighbors, loadFromStorage, modifyNeighborRanks, sortStopHandler, store, storeTasks, taskListEmpty, taskToObject, tasksExist;
 
   loadFromStorage = function() {
     var ids, objs, ranked_objs, tasks;
@@ -47,8 +47,12 @@ Future: 	Completed tasks should be archived into a different UI element or
   create = function(id, rank, text) {
     var task;
     task = $("<li></li>").clone();
-    task.data("id", id).data("rank", rank).html(text).addClass("task").dblclick(function() {
-      return dblClickInlineHandler(task);
+    task.data("id", id).data("rank", rank).html(text).addClass("task").hover(function() {
+      window.taskHoveredId = id;
+      return $("#editSwitch").show();
+    }).dblclick(function(e) {
+      dblClickInlineHandler(task);
+      return e.stopPropagation();
     }).addClass("ui-state-default");
     return task;
   };
@@ -136,6 +140,17 @@ Future: 	Completed tasks should be archived into a different UI element or
     return children;
   };
 
+  getTaskFromID = function(id) {
+    var first, tasks, tasks_found;
+    tasks = getTasksFromUI();
+    debugger;
+    tasks_found = _.reject(tasks, function(t) {
+      return t.data("id") !== id;
+    });
+    first = tasks_found[0];
+    return first;
+  };
+
   tasksExist = function() {
     var ids;
     ids = Object.keys(localStorage);
@@ -199,14 +214,14 @@ Future: 	Completed tasks should be archived into a different UI element or
     task[0].designMode = "on";
     console.log("Editing mode on");
     task.attr("contentEditable", "true");
-    return task.bind("blur", function() {
+    return task.blur(function() {
       return blurHandler(task);
     });
   };
 
   blurHandler = function(task) {
     task[0].designMode = "off";
-    task.removeAttr("contentEditable");
+    task.attr("contentEditable", "false");
     console.log("Editing mode off");
     return store(task);
   };
@@ -223,6 +238,7 @@ Future: 	Completed tasks should be archived into a different UI element or
   };
 
   $(function() {
+    $("#tasks").sortable();
     $("#todotext").focus();
     $("#todotext").keydown(function(e) {
       var enterPressed, id, isBlank, rank, task, text;
@@ -239,6 +255,19 @@ Future: 	Completed tasks should be archived into a different UI element or
           return store(task);
         }
       }
+    });
+    $("#editSwitch").bind("click", function() {
+      var task, taskId;
+      taskId = window.taskHoveredId;
+      task = getTaskFromID(taskId);
+      debugger;
+      task[0].designMode = "on";
+      task.attr("contentEditable", "true");
+      console.log("Editing mode on");
+      task.focus();
+      return task.blur(function() {
+        return blurHandler(task);
+      });
     });
     return loadFromStorage();
   });

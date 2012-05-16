@@ -16,12 +16,14 @@
 			%span.appName TodoKemp
 		#entry
 			#instructions
-				%span Drag to reorder. Enter to insert. Double-click to delete. 
+				%span Drag to reorder. Enter to insert. Double-click to update. 
 			%input.todoText{:type => "text", :id=>"todotext", :value=>"What's your task?"}
 
 		#taskList
 			#title{:style=>"display:none"}
 				%span Current Tasks:
+			#editSwitch{:style=>"display:none"}
+				%span EDIT
 			%ul{:id=>"tasks"}
 
 		#footer

@@ -54,7 +54,17 @@ create = (id, rank, text) ->
 		.addClass("task")
 		# On double-click, delete items
 		#.dblclick(() -> dblClickHandler(task))
-		.dblclick(() -> dblClickInlineHandler(task))
+		.hover(() -> 
+			#FIXME: This sucks to use a global
+			# We're using this to keep track of the editable item
+			window.taskHoveredId = id
+			# Show edit icon
+			$("#editSwitch").show()
+		)
+		.dblclick((e) -> 
+			dblClickInlineHandler(task)
+			e.stopPropagation()
+		)
 		.addClass("ui-state-default")
 
 	# DEBUG: colors for rank
@@ -144,6 +154,15 @@ getTasksFromUI = () ->
 	)
 	return children
 
+getTaskFromID = (id) ->
+	# Returns: 	The task Jquery object with the given id
+	tasks = getTasksFromUI()
+	debugger
+	tasks_found = _.reject(tasks, (t) -> return t.data("id") isnt id)
+	# Return the first task with the given id
+	first = tasks_found[0]
+	return first
+
 tasksExist = () ->
 	ids = Object.keys(localStorage)
 	if not _.isEmpty(ids)
@@ -210,16 +229,20 @@ dblClickInlineHandler = (task) ->
 	# Purpose: 	Double-clicking on a task makes it editable
 	task[0].designMode = "on"
 	console.log("Editing mode on")
-	task.attr("contentEditable", "true")	
-	task.bind("blur", () -> blurHandler(task))	
+
+	task.attr("contentEditable", "true")
+	#task.removeClass("ui-state-default")
+	#$("#tasks").removeClass("ui-sortable")
+
+	task.blur(() -> blurHandler(task))	
 
 blurHandler = (task) ->
 	# Purpose: On lose-focus, text from element is saved to local storage
 	#window.document.designMode = "off"
 	
 	task[0].designMode = "off"
-	task.removeAttr("contentEditable")
-	
+	task.attr("contentEditable", "false")
+
 	console.log("Editing mode off")
 
 	store(task)
@@ -246,8 +269,12 @@ dblClickHandler = (task) ->
 
 # On Dom Load
 $ ->
-	#$("#tasks").sortable().bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
-
+	$("#tasks").sortable()
+	#	update: (e, ui) ->
+	#		ui.item.unbind("dblclick")
+	#	)
+	#	.bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
+		#.unbind("dblclick")
 	$("#todotext").focus()
 
 	# On enter press, grab the text in todoText input
@@ -270,5 +297,19 @@ $ ->
 	        	store(task)
     	)
 	
+	$("#editSwitch").bind("click", () -> 
+		# Grab the editable task id
+		taskId = window.taskHoveredId
+		task = getTaskFromID(taskId)
+		debugger
+		# Make the task editable
+		task[0].designMode = "on"
+		task.attr("contentEditable", "true")
+		console.log("Editing mode on")
+		# Give focus to it
+		task.focus()
+		task.blur(() -> blurHandler(task))	
+	)
+
 	# Load tasks
 	loadFromStorage()
