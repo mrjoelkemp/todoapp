@@ -1,3 +1,10 @@
+###
+Author: 	Joel Kemp, @mrjoelkemp
+Project: 	Todo App 
+File: 		todoapp.coffee
+Purpose: 	Main script for the todo app.
+###
+
 loadFromStorage = () ->
 	# Precond: 	Task Structure = id, rank, text
 	# Notes:	Since local storage only uses strings, 
