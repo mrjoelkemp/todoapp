@@ -206,6 +206,7 @@ Future: 	Completed tasks should be archived into a different UI element or
 
   blurHandler = function(task) {
     task[0].designMode = "off";
+    task.removeAttr("contentEditable");
     console.log("Editing mode off");
     return store(task);
   };

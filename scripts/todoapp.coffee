@@ -218,8 +218,10 @@ blurHandler = (task) ->
 	#window.document.designMode = "off"
 	
 	task[0].designMode = "off"
-	console.log("Editing mode off")
+	task.removeAttr("contentEditable")
 	
+	console.log("Editing mode off")
+
 	store(task)
 	
 
