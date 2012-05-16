@@ -72,7 +72,7 @@ appendTasksToTaskList = (tasks) ->
 	# Append each element of the list to the task list
 	_.each(tasks, (t) -> appendToTaskList(t))
 
-appendToTaskList() = (task) ->
+appendToTaskList = (task) ->
 	# Add task to the list of tasks
 	task.appendTo("#tasks")
 
@@ -168,9 +168,12 @@ getTopNeighborRank = (id) ->
 	# Find the top neighbor, the one right before task in the list of children
 	neighborRank = 0
 	for i in [0 ... tasks.length]
-		top_neighbor = tasks[i + 1].data("id") == id
-		if top_neighbor
-			neighborRank = tasks[i].data("rank")
+		top_neighbor = tasks[i + 1]
+		# Avoid the boundaries
+		if top_neighbor is not undefined
+			desired_top_neighbor = top_neighbor.data("id") == id
+			if desired_top_neighbor
+				neighborRank = tasks[i].data("rank")
 			
 	return neighborRank
 
