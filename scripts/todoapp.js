@@ -6,6 +6,7 @@
     var textfield;
     console.log("in todoapp");
     $("#tasks").sortable();
+    loadTasks();
     textfield = $("#todotext");
     return $("#todotext").keydown(function(e) {
       var enterPressed, id, isBlank, rank, text;
@@ -18,7 +19,7 @@
           $("#todotext")[0].value = "";
           id = getNewId();
           rank = getNewRank();
-          return create(id, rank, text);
+          return create(id, rank, text, true);
         }
       }
     });
@@ -38,17 +39,22 @@
       return taskObj;
     });
     return _.each(tasks, function(taskObj) {
-      return create(taskObj.id, taskObj.rank, taskObj.text);
+      return create(taskObj.id, taskObj.rank, taskObj.text, false);
     });
   };
 
-  create = function(id, rank, text) {
+  create = function(id, rank, text, persist) {
     var task, taskObj;
+    if (persist == null) {
+      persist = false;
+    }
     task = $("<li></li>").clone();
     task.data("id", id).data("rank", rank).html(text).addClass("task");
     task.appendTo("#tasks");
-    taskObj = taskToObject(task);
-    return store(taskObj);
+    if (persist) {
+      taskObj = taskToObject(task);
+      return store(taskObj);
+    }
   };
 
   store = function(taskJSON) {

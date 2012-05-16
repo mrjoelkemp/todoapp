@@ -4,7 +4,7 @@ $ ->
 	$("#tasks").sortable()
 		
 	# Load tasks 
-	#loadTasks()
+	loadTasks()
 	
 	# On enter press, grab the text in todoText input
 	textfield = $("#todotext")
@@ -24,7 +24,7 @@ $ ->
 	        	# Create task with submitted text
 	        	id = getNewId()
 	        	rank = getNewRank()
-	        	create(id, rank, text)
+	        	create(id, rank, text, true)
     )
 
 loadTasks = () ->
@@ -47,10 +47,10 @@ loadTasks = () ->
 
 	# Recreate the task
 	_.each(tasks, (taskObj) ->
-		create(taskObj.id, taskObj.rank, taskObj.text)
+		create(taskObj.id, taskObj.rank, taskObj.text, false)
 	)
 
-create = (id, rank, text) ->
+create = (id, rank, text, persist = false) ->
 # Purpose: 	Creates a Jquery obj representing the task, adds it to the UI, and persists if necessary
 # Notes:	Doing all of this here 
 	# Create li 
@@ -64,8 +64,9 @@ create = (id, rank, text) ->
 	task.appendTo("#tasks")
 
 	# Persist, if necessary
-	taskObj = taskToObject(task)
-	store(taskObj)
+	if persist
+		taskObj = taskToObject(task)
+		store(taskObj)
 
 store = (taskJSON) ->
 # Purpose: 	Persists the string representation of the passed obj to local storage
