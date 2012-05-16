@@ -21,6 +21,11 @@ Clear list
 
 Update tasks
 	-double click to Update
+		-Remember the rank of the clicked item
+			- updated task will be inserted there
+				- append and force sort
+			-
+		-Remove the task
 
 Storage Changes:
 Make local storage work on Firefox

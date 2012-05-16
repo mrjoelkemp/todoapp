@@ -54,16 +54,33 @@ create = (id, rank, text) ->
 		.addClass("task")
 		# On double-click, delete items
 		#.dblclick(() -> dblClickHandler(task))
-		.hover(() -> 
+		.click((e) -> 
+			# Grab the editable task id
+			#taskId = window.taskHoveredId
+			#task = getTaskFromID(taskId)
+			# Make the task editable
+			task[0].designMode = "on"
+			task.attr("contentEditable", "true")
+			console.log("Editing mode on")
+			# Hide the edit switch
+			$("#editSwitch").hide()
+			# Give focus to it
+			task.focus()
+			task.blur(() -> blurHandler(task))
+			###
 			#FIXME: This sucks to use a global
 			# We're using this to keep track of the editable item
 			window.taskHoveredId = id
+			#console.log("Hovered over: " + window.taskHoveredId)
+			
 			# Show edit icon
-			$("#editSwitch").show()
-		)
-		.dblclick((e) -> 
-			dblClickInlineHandler(task)
-			e.stopPropagation()
+			# Position of the edit link is to the left of the task
+			taskPos = $("#taskList").position()
+			taskY = task.position().top
+			console.log("Pos: ", taskPos)
+			$("#editSwitch").css({"top": taskY, "left":taskPos.left})
+							.show()
+			###
 		)
 		.addClass("ui-state-default")
 
@@ -157,7 +174,6 @@ getTasksFromUI = () ->
 getTaskFromID = (id) ->
 	# Returns: 	The task Jquery object with the given id
 	tasks = getTasksFromUI()
-	debugger
 	tasks_found = _.reject(tasks, (t) -> return t.data("id") isnt id)
 	# Return the first task with the given id
 	first = tasks_found[0]
@@ -301,11 +317,12 @@ $ ->
 		# Grab the editable task id
 		taskId = window.taskHoveredId
 		task = getTaskFromID(taskId)
-		debugger
 		# Make the task editable
 		task[0].designMode = "on"
 		task.attr("contentEditable", "true")
 		console.log("Editing mode on")
+		# Hide the edit switch
+		$("#editSwitch").hide()
 		# Give focus to it
 		task.focus()
 		task.blur(() -> blurHandler(task))	

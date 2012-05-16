@@ -74,6 +74,14 @@ ul{
  		margin-bottom: 5px;
  		margin-top: 5px;
  	}
+ 	#editSwitch button{
+ 		font-size: 15px;
+ 		font-weight: bold;
+ 		border: none;
+ 		cursor: pointer;
+ 		//position: absolute;
+
+ 	}
  	.task{
 		border: 1px solid $black;
 		background-color: $white;

@@ -47,12 +47,30 @@ Future: 	Completed tasks should be archived into a different UI element or
   create = function(id, rank, text) {
     var task;
     task = $("<li></li>").clone();
-    task.data("id", id).data("rank", rank).html(text).addClass("task").hover(function() {
-      window.taskHoveredId = id;
-      return $("#editSwitch").show();
-    }).dblclick(function(e) {
-      dblClickInlineHandler(task);
-      return e.stopPropagation();
+    task.data("id", id).data("rank", rank).html(text).addClass("task").click(function(e) {
+      task[0].designMode = "on";
+      task.attr("contentEditable", "true");
+      console.log("Editing mode on");
+      $("#editSwitch").hide();
+      task.focus();
+      return task.blur(function() {
+        return blurHandler(task);
+      });
+      /*
+      			#FIXME: This sucks to use a global
+      			# We're using this to keep track of the editable item
+      			window.taskHoveredId = id
+      			#console.log("Hovered over: " + window.taskHoveredId)
+      			
+      			# Show edit icon
+      			# Position of the edit link is to the left of the task
+      			taskPos = $("#taskList").position()
+      			taskY = task.position().top
+      			console.log("Pos: ", taskPos)
+      			$("#editSwitch").css({"top": taskY, "left":taskPos.left})
+      							.show()
+      */
+
     }).addClass("ui-state-default");
     return task;
   };
@@ -143,7 +161,6 @@ Future: 	Completed tasks should be archived into a different UI element or
   getTaskFromID = function(id) {
     var first, tasks, tasks_found;
     tasks = getTasksFromUI();
-    debugger;
     tasks_found = _.reject(tasks, function(t) {
       return t.data("id") !== id;
     });
@@ -260,10 +277,10 @@ Future: 	Completed tasks should be archived into a different UI element or
       var task, taskId;
       taskId = window.taskHoveredId;
       task = getTaskFromID(taskId);
-      debugger;
       task[0].designMode = "on";
       task.attr("contentEditable", "true");
       console.log("Editing mode on");
+      $("#editSwitch").hide();
       task.focus();
       return task.blur(function() {
         return blurHandler(task);
