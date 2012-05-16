@@ -63,7 +63,8 @@ create = (id, rank, text) ->
 	task.appendTo("#tasks")
 
 	# Persist, if necessary
-	store(task)
+	taskObj = taskToObject(task)
+	store(taskObj)
 
 store = (taskJSON) ->
 # Purpose: 	Persists the string representation of the passed obj to local storage
@@ -75,9 +76,10 @@ store = (taskJSON) ->
 taskToObject = (task) ->
 # Precond: 	Takes in a Jquery obj representing the task
 # Notes:	We'll look at the hidden data to populate the object
-	json = "id": task.data("id")
-		"rank": task.data("rank")
-		"text": task.data("text")
+	json = 
+		"id": task.data("id"),
+		"rank": task.data("rank"),
+		"text": task.html()
 	return json
 
 # Helpers
@@ -98,7 +100,7 @@ getLargestId = () ->
 getNewRank = () ->
 # Purpose:	Generates a rank for a new task
 # Notes:	New tasks are ranked last
-	debugger
+	
 	if taskListEmpty()
 		return 1
 
@@ -112,8 +114,10 @@ getNewRank = () ->
 
 taskListEmpty = () ->
 # Purpose: 	Checks if the task list has tasks
+	
 	tasks = getTasksFromUI()
-	return _.isEmpty(tasks)
+	isEmpty = tasks.length == 0
+	return isEmpty
 
 getTasksFromUI = () ->
 	children = $("#tasks").children()

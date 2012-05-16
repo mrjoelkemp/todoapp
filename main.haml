@@ -26,7 +26,10 @@
 			%ul{:id=>"tasks"}
 
 		#footer
-			Joel Kemp, @mrjoelkemp
+			%span
+				Joel Kemp, 
+				%a{:href=>"https://twitter.com/#!/mrjoelkemp", :target=>"_blank"}
+					@mrjoelkemp
 
 :javascript
 	head.js("scripts/todoapp.js", "scripts/todo.js");

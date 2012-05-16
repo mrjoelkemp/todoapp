@@ -43,13 +43,14 @@
   };
 
   create = function(id, rank, text) {
-    var task;
+    var task, taskObj;
     task = $("<li></li>").clone();
     task.data("id", id);
     task.data("rank", rank);
     task.html(text);
     task.appendTo("#tasks");
-    return store(task);
+    taskObj = taskToObject(task);
+    return store(taskObj);
   };
 
   store = function(taskJSON) {
@@ -62,10 +63,9 @@
   taskToObject = function(task) {
     var json;
     json = {
-      "id": task.data("id")({
-        "rank": task.data("rank"),
-        "text": task.data("text")
-      })
+      "id": task.data("id"),
+      "rank": task.data("rank"),
+      "text": task.html()
     };
     return json;
   };
@@ -88,7 +88,6 @@
   };
 
   getNewRank = function() {
-    debugger;
     var newRank, ranks, tasks;
     if (taskListEmpty()) {
       return 1;
@@ -102,9 +101,10 @@
   };
 
   taskListEmpty = function() {
-    var tasks;
+    var isEmpty, tasks;
     tasks = getTasksFromUI();
-    return _.isEmpty(tasks);
+    isEmpty = tasks.length === 0;
+    return isEmpty;
   };
 
   getTasksFromUI = function() {
