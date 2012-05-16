@@ -1,0 +1,51 @@
+Completed tasks:
+
+Feature Changes
+Completed tasks should be archived into a different list (Completed Tasks)
+	- Single click to mark completed
+	- create CSS class containing the strikethrough 
+	- Detach it and reattach it to the task list Should be attached at the end.
+	- Need additional field (completed) so that we can load tasks that are completed with the strikethrough
+		-Ranking should be preserved.
+	-Double-click on a completed task to delete it
+
+Detect duplicate tasks
+	-look through the text values of each task and check against the currently inserted task
+	-flash the textbar as red if the task is not valid.
+
+Clear list
+	-Button that allows a user to clear all of the tasks
+		-Delete all from localstorage?
+		-Warn user with an alert
+	-Place the button within the tasklist UI
+
+Update tasks
+	-double click to Update
+
+Storage Changes:
+Make local storage work on Firefox
+Use Modernizr to detect localstorage
+Change backend from localstorage to redis or mongo server?
+
+Visual Changes:
+Make task items auto-width
+	-Need to wrap in 100% width container to retain vertical arrangement.
+	-Might be another way to set a vertical property of the UL
+
+Add pointer cursor for items. Give it a hand to drag.
+Make the UI resilient to width changes. Either force a width or use percentages.
+
+Hide the tasklist at the start. It currently shows when the list is empty.
+	- when a task is being inserted, show the tasklist and the title
+
+If you delete all of the tasks, hide the title.
+	-Upon task deletion, check the number of children in the UL task list.
+		-If it's zero, then the list is empty
+			-hide the title
+			-hide the taskList
+
+Find a complementary color to add a visual pop to the gray, black, and white aesthetic
+	-Make half of the title pop
+	-Maybe make the verbs in the instructions pop. (Drag, enter, doubleclick)
+
+Create a count of the tasks near the "Current Tasks:" label.
