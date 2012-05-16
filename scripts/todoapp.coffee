@@ -64,7 +64,7 @@ dblClickHandler = (task) ->
 
 	# Decrease their ranks by one (move them up)
 	modifyNeighborRanks(bottoms, -1)
-
+	
 	# Remove from storage
 	deleteFromStorage(task)
 	# Remove from the task list
@@ -77,6 +77,10 @@ appendTasksToTaskList = (tasks) ->
 appendToTaskList = (task) ->
 	# Add task to the list of tasks
 	task.appendTo("#tasks")
+
+storeTasks = (tasks) ->
+	# Purpose: 	Helper for storage of multiple items
+	_.each(tasks, (t) -> store(t))
 
 store = (task) ->
 	# Purpose: 	Persists the string representation of the passed obj to local storage
@@ -184,8 +188,11 @@ getBottomNeighbors = (rank, tasks) ->
 
 modifyNeighborRanks = (tasks, offset) ->
 	# Purpose: 	Either increases or decreases the ranks of the passed tasks by the offset
+	# Notes: 	Change in rank triggers a storage update. This avoids us forgetting to do so.
 	_.each(tasks, (t) -> t.data("rank", t.data("rank") + offset))
-
+	# Save the modified neighbors
+	storeTasks(tasks)
+	
 sortStopHandler = (e, ui) ->
 	# Purpose: 	Handles the sort stop event for a dragged task
 	# Once the task is in its new place,
@@ -217,7 +224,6 @@ sortStopHandler = (e, ui) ->
 
 	# Save all tasks
 	store(draggedTask)
-	_.each(tops, (t) -> store(t))
 
 $ ->
 	$("#tasks").sortable()
