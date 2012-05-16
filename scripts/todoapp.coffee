@@ -38,7 +38,7 @@ create = (id, rank, text) ->
 		.html(text)
 		.addClass("task")
 		# On double-click, delete items
-		.dblclick(() -> dblClickHandler(this))
+		.dblclick(() -> dblClickHandler(task))
 
 	# DEBUG: colors for rank
 	#colorClasses = ["green", "red", "blue", "black", "green", "red", "blue", "black"]
@@ -46,10 +46,10 @@ create = (id, rank, text) ->
 
 	return task
 
-dblClickHandler: (task) ->
+dblClickHandler = (task) ->
 	# Purpose: 	On double click of a task, we remove that task 
 	#			and move those below it up in rank
-
+	debugger
 	id = task.data("id")
 	rank = task.data("rank")
 
@@ -176,7 +176,7 @@ getBottomNeighbors = (rank, tasks) ->
 
 modifyNeighborRanks = (tasks, offset) ->
 	# Purpose: 	Either increases or decreases the ranks of the passed tasks by the offset
-	_.each(tasks, (t) -> t.data("rank", t.data("rank") - offset))
+	_.each(tasks, (t) -> t.data("rank", t.data("rank") + offset))
 
 sortStopHandler = (e, ui) ->
 	# Purpose: 	Handles the sort stop event for a dragged task
