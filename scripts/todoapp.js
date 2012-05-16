@@ -81,7 +81,7 @@
   getNewRank = function() {
     var newRank, ranks, tasks;
     if (taskListEmpty()) {
-      return 1;
+      return 0;
     }
     tasks = getTasksFromUI();
     ranks = _.map(tasks, function(task) {

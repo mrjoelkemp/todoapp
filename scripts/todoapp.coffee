@@ -87,7 +87,7 @@ getNewRank = () ->
 	# Notes:	New tasks are ranked last
 	
 	if taskListEmpty()
-		return 1
+		return 0
 
 	# Extract the ranks from the children
 	tasks = getTasksFromUI()
