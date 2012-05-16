@@ -159,7 +159,7 @@ sortStopHandler = (e, ui) ->
 
 	# Change task rank to that of its new top neighbor
 	newRank = getTopNeighborRank(taskId)
-	task.data("rank", newRank)
+	draggedTask.data("rank", newRank)
 
 	# Exclude dragged task
 	tasks = _.reject(tasks, (t) -> t.data("id") is taskId)
@@ -173,7 +173,7 @@ sortStopHandler = (e, ui) ->
 
 	# Save all tasks
 	store(draggedTask)
-	_.each(tasks, (t) -> store(t))
+	_.each(tops, (t) -> store(t))
 
 $ ->
 	$("#tasks").sortable()

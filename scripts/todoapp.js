@@ -141,7 +141,7 @@
     taskId = draggedTask.data("id");
     tasks = getTasksFromUI();
     newRank = getTopNeighborRank(taskId);
-    task.data("rank", newRank);
+    draggedTask.data("rank", newRank);
     tasks = _.reject(tasks, function(t) {
       return t.data("id") === taskId;
     });
@@ -152,7 +152,7 @@
       return t.data("rank", t.data("rank") - 1);
     });
     store(draggedTask);
-    return _.each(tasks, function(t) {
+    return _.each(tops, function(t) {
       return store(t);
     });
   };
