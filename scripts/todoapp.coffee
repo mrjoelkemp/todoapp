@@ -27,6 +27,11 @@ loadFromStorage = () ->
 	ranked_objs = _.sortBy(objs, (o) -> return o.data("rank"))
 	appendTasksToTaskList(ranked_objs)
 
+deleteFromStorage = (task) ->
+	# Get the id/key
+	id = task.data("id")
+	localStorage.removeItem(id)
+
 create = (id, rank, text) ->
 	# Purpose: 	Creates a Jquery obj representing the task, adds it to the UI, 
 	#			and persists if necessary
@@ -60,6 +65,9 @@ dblClickHandler = (task) ->
 	# Decrease their ranks by one (move them up)
 	modifyNeighborRanks(bottoms, -1)
 
+	# Remove from storage
+	deleteFromStorage(task)
+	# Remove from the task list
 	task.remove()
 
 appendTasksToTaskList = (tasks) ->
