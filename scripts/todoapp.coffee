@@ -33,10 +33,8 @@ deleteFromStorage = (task) ->
 	localStorage.removeItem(id)
 
 create = (id, rank, text) ->
-	# Purpose: 	Creates a Jquery obj representing the task, adds it to the UI, 
-	#			and persists if necessary
-	# Notes:	Doing all of this here for ease.
-	# Create li 
+	# Purpose: 	Creates a Jquery obj representing the task,
+	# Returns: 	A jquery object representing the task
 	task = $("<li></li>").clone()
 	task.data("id", id)
 		.data("rank", rank)
@@ -74,7 +72,7 @@ appendTasksToTaskList = (tasks) ->
 	# Append each element of the list to the task list
 	_.each(tasks, (t) -> appendToTaskList(t))
 
-appendToTaskList = (task) ->
+appendToTaskList() = (task) ->
 	# Add task to the list of tasks
 	task.appendTo("#tasks")
 
@@ -244,7 +242,9 @@ $ ->
 	        	# Create task with submitted text and persist
 	        	id = getNewId()
 	        	rank = getNewRank()
-	        	create(id, rank, text, true)
+	        	task = create(id, rank, text)
+	        	appendToTaskList(task)
+	        	store(task)
     	)
 	
 	# Load tasks
