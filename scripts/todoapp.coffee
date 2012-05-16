@@ -139,7 +139,7 @@ getTopNeighborRank = (id) ->
 	for i in [0 ... tasks.length]
 		top_neighbor = tasks[i + 1].data("id") == id
 		if top_neighbor
-			neighborRank = task[i].data("rank")
+			neighborRank = tasks[i].data("rank")
 			return neighborRank
 
 sortStopHandler = (e, ui) ->

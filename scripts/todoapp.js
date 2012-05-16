@@ -127,7 +127,7 @@
     for (i = _i = 0, _ref = tasks.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
       top_neighbor = tasks[i + 1].data("id") === id;
       if (top_neighbor) {
-        neighborRank = task[i].data("rank");
+        neighborRank = tasks[i].data("rank");
         return neighborRank;
       }
     }
