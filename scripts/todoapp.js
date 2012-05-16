@@ -14,7 +14,7 @@ Future: 	Completed tasks should be archived into a different UI element or
 
 
 (function() {
-  var appendTasksToTaskList, appendToTaskList, create, dblClickHandler, deleteFromStorage, getBottomNeighbors, getLargestId, getNewId, getNewRank, getTasksFromUI, getTopNeighborRank, getTopNeighbors, loadFromStorage, modifyNeighborRanks, sortStopHandler, store, storeTasks, taskListEmpty, taskToObject, tasksExist;
+  var appendTasksToTaskList, appendToTaskList, blurHandler, create, dblClickHandler, dblClickInlineHandler, deleteFromStorage, getBottomNeighbors, getLargestId, getNewId, getNewRank, getTasksFromUI, getTopNeighborRank, getTopNeighbors, loadFromStorage, modifyNeighborRanks, sortStopHandler, store, storeTasks, taskListEmpty, taskToObject, tasksExist;
 
   loadFromStorage = function() {
     var ids, objs, ranked_objs, tasks;
@@ -48,7 +48,7 @@ Future: 	Completed tasks should be archived into a different UI element or
     var task;
     task = $("<li></li>").clone();
     task.data("id", id).data("rank", rank).html(text).addClass("task").dblclick(function() {
-      return dblClickHandler(task);
+      return dblClickInlineHandler(task);
     }).addClass("ui-state-default");
     return task;
   };
@@ -195,6 +195,21 @@ Future: 	Completed tasks should be archived into a different UI element or
     return storeTasks(tasks);
   };
 
+  dblClickInlineHandler = function(task) {
+    task[0].designMode = "on";
+    console.log("Editing mode on");
+    task.attr("contentEditable", "true");
+    return task.bind("blur", function() {
+      return blurHandler(task);
+    });
+  };
+
+  blurHandler = function(task) {
+    task[0].designMode = "off";
+    console.log("Editing mode off");
+    return store(task);
+  };
+
   dblClickHandler = function(task) {
     var bottoms, id, rank, tasks;
     id = task.data("id");
@@ -207,9 +222,6 @@ Future: 	Completed tasks should be archived into a different UI element or
   };
 
   $(function() {
-    $("#tasks").sortable().bind("sortstop", function(e, ui) {
-      return sortStopHandler(e, ui);
-    });
     $("#todotext").focus();
     $("#todotext").keydown(function(e) {
       var enterPressed, id, isBlank, rank, task, text;

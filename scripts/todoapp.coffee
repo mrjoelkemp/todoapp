@@ -53,7 +53,8 @@ create = (id, rank, text) ->
 		.html(text)
 		.addClass("task")
 		# On double-click, delete items
-		.dblclick(() -> dblClickHandler(task))
+		#.dblclick(() -> dblClickHandler(task))
+		.dblclick(() -> dblClickInlineHandler(task))
 		.addClass("ui-state-default")
 
 	# DEBUG: colors for rank
@@ -205,6 +206,23 @@ sortStopHandler = (e, ui) ->
 	# Persist
 	storeTasks(tasks)
 
+dblClickInlineHandler = (task) ->
+	# Purpose: 	Double-clicking on a task makes it editable
+	task[0].designMode = "on"
+	console.log("Editing mode on")
+	task.attr("contentEditable", "true")	
+	task.bind("blur", () -> blurHandler(task))	
+
+blurHandler = (task) ->
+	# Purpose: On lose-focus, text from element is saved to local storage
+	#window.document.designMode = "off"
+	
+	task[0].designMode = "off"
+	console.log("Editing mode off")
+	
+	store(task)
+	
+
 dblClickHandler = (task) ->
 	# Purpose: 	On double click of a task, we remove that task 
 	#			and move those below it up in rank
@@ -226,7 +244,7 @@ dblClickHandler = (task) ->
 
 # On Dom Load
 $ ->
-	$("#tasks").sortable().bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
+	#$("#tasks").sortable().bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
 
 	$("#todotext").focus()
 
