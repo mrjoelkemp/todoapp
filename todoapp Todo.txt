@@ -1,0 +1,55 @@
+Features:
+CRUD
+Reorder
+
+Tech:
+Jquery and Jquery UI
+Coffeescript
+Haml/SASS
+HTML5 local storage
+Modernizr? Probably not since there's no alt to local storage.
+
+UI:
+Center justified
+Dark Gray on white w/ black trim
+Rounded corners
+
+Banner
+Form for task entry
+-submit button and enter-press submit
+
+Vertical List of tasks
+List elements span entire div width
+Opacity change when item is dragged
+
+Footer
+Author info
+
+Implementation----
+On sort event end, 
+Determine the ranks of your top neighbor
+-if top neighbor is undefined, your rank is 1
+-if bottom neighbor is undefined, your rank is the largest known rank (doesn't apply since we're looking at top neighbor)
+-Update the todo's rank in local storage
+
+Local storage schema (key/value)
+Id to Todo Object mapping
+Todo Object
+-id
+-ul object
+-rank
+
+TodoManager : could be cumbersome
+CreateTodo()
+UpdateTodo
+DeleteTodo
+
+
+On dom load,
+	Make todos div/ul sortable
+	Check local storage for our todo db
+	If exists, try to pull the todos
+		-if todos exist, for each todo:
+			-create an <li> and attach to todos
+			-set li's data for id
+			-set li data for rank
