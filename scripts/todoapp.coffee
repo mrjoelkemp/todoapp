@@ -53,7 +53,35 @@ create = (id, rank, text) ->
 		.html(text)
 		.addClass("task")
 		# On double-click, delete items
-		.dblclick(() -> dblClickHandler(task))
+		#.dblclick(() -> dblClickHandler(task))
+		.click((e) -> 
+			# Grab the editable task id
+			#taskId = window.taskHoveredId
+			#task = getTaskFromID(taskId)
+			# Make the task editable
+			task[0].designMode = "on"
+			task.attr("contentEditable", "true")
+			console.log("Editing mode on")
+			# Hide the edit switch
+			$("#editSwitch").hide()
+			# Give focus to it
+			task.focus()
+			task.blur(() -> blurHandler(task))
+			###
+			#FIXME: This sucks to use a global
+			# We're using this to keep track of the editable item
+			window.taskHoveredId = id
+			#console.log("Hovered over: " + window.taskHoveredId)
+			
+			# Show edit icon
+			# Position of the edit link is to the left of the task
+			taskPos = $("#taskList").position()
+			taskY = task.position().top
+			console.log("Pos: ", taskPos)
+			$("#editSwitch").css({"top": taskY, "left":taskPos.left})
+							.show()
+			###
+		)
 		.addClass("ui-state-default")
 
 	# DEBUG: colors for rank
@@ -143,6 +171,14 @@ getTasksFromUI = () ->
 	)
 	return children
 
+getTaskFromID = (id) ->
+	# Returns: 	The task Jquery object with the given id
+	tasks = getTasksFromUI()
+	tasks_found = _.reject(tasks, (t) -> return t.data("id") isnt id)
+	# Return the first task with the given id
+	first = tasks_found[0]
+	return first
+
 tasksExist = () ->
 	ids = Object.keys(localStorage)
 	if not _.isEmpty(ids)
@@ -205,6 +241,29 @@ sortStopHandler = (e, ui) ->
 	# Persist
 	storeTasks(tasks)
 
+dblClickInlineHandler = (task) ->
+	# Purpose: 	Double-clicking on a task makes it editable
+	task[0].designMode = "on"
+	console.log("Editing mode on")
+
+	task.attr("contentEditable", "true")
+	#task.removeClass("ui-state-default")
+	#$("#tasks").removeClass("ui-sortable")
+
+	task.blur(() -> blurHandler(task))	
+
+blurHandler = (task) ->
+	# Purpose: On lose-focus, text from element is saved to local storage
+	#window.document.designMode = "off"
+	
+	task[0].designMode = "off"
+	task.attr("contentEditable", "false")
+
+	console.log("Editing mode off")
+
+	store(task)
+	
+
 dblClickHandler = (task) ->
 	# Purpose: 	On double click of a task, we remove that task 
 	#			and move those below it up in rank
@@ -226,8 +285,12 @@ dblClickHandler = (task) ->
 
 # On Dom Load
 $ ->
-	$("#tasks").sortable().bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
-
+	$("#tasks").sortable()
+	#	update: (e, ui) ->
+	#		ui.item.unbind("dblclick")
+	#	)
+	#	.bind("sortstop", (e, ui) -> sortStopHandler(e, ui))
+		#.unbind("dblclick")
 	$("#todotext").focus()
 
 	# On enter press, grab the text in todoText input
@@ -250,5 +313,20 @@ $ ->
 	        	store(task)
     	)
 	
+	$("#editSwitch").bind("click", () -> 
+		# Grab the editable task id
+		taskId = window.taskHoveredId
+		task = getTaskFromID(taskId)
+		# Make the task editable
+		task[0].designMode = "on"
+		task.attr("contentEditable", "true")
+		console.log("Editing mode on")
+		# Hide the edit switch
+		$("#editSwitch").hide()
+		# Give focus to it
+		task.focus()
+		task.blur(() -> blurHandler(task))	
+	)
+
 	# Load tasks
 	loadFromStorage()

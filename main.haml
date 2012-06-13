@@ -3,7 +3,7 @@
 	%head
 		%title TodoKemp
 		%link{:rel =>"stylesheet", :type =>"text/css", :href =>"css/styles.css"}
-		%link{:href=>'http://fonts.googleapis.com/css?family=Judson', :rel=>'stylesheet', :type=>'text/css'}
+		/%link{:href=>'http://fonts.googleapis.com/css?family=Judson', :rel=>'stylesheet', :type=>'text/css'}
 
 		%script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"}
 		%script{:src => "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"}		
@@ -16,14 +16,16 @@
 			%span.appName TodoKemp
 		#entry
 			#instructions
-				%span Drag to reorder. Enter to insert. Double-click to delete. 
+				%span Drag to reorder. Enter to insert. Double-click to update. 
 			%input.todoText{:type => "text", :id=>"todotext", :value=>"What's your task?"}
 
 		#taskList
 			#title{:style=>"display:none"}
 				%span Current Tasks:
+			#editSwitch{:style=>"display:none"}
+				%button EDIT
 			%ul{:id=>"tasks"}
-
+				
 		#footer
 			%span
 				Joel Kemp, 

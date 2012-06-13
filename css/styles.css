@@ -53,6 +53,11 @@ ul {
     font-weight: bold;
     margin-bottom: 5px;
     margin-top: 5px; }
+  #taskList #editSwitch button {
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer; }
   #taskList .task {
     border: 1px solid #111111;
     background-color: #eeeeee;

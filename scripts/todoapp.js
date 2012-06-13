@@ -14,7 +14,7 @@ Future: 	Completed tasks should be archived into a different UI element or
 
 
 (function() {
-  var appendTasksToTaskList, appendToTaskList, create, dblClickHandler, deleteFromStorage, getBottomNeighbors, getLargestId, getNewId, getNewRank, getTasksFromUI, getTopNeighborRank, getTopNeighbors, loadFromStorage, modifyNeighborRanks, sortStopHandler, store, storeTasks, taskListEmpty, taskToObject, tasksExist;
+  var appendTasksToTaskList, appendToTaskList, blurHandler, create, dblClickHandler, dblClickInlineHandler, deleteFromStorage, getBottomNeighbors, getLargestId, getNewId, getNewRank, getTaskFromID, getTasksFromUI, getTopNeighborRank, getTopNeighbors, loadFromStorage, modifyNeighborRanks, sortStopHandler, store, storeTasks, taskListEmpty, taskToObject, tasksExist;
 
   loadFromStorage = function() {
     var ids, objs, ranked_objs, tasks;
@@ -47,8 +47,30 @@ Future: 	Completed tasks should be archived into a different UI element or
   create = function(id, rank, text) {
     var task;
     task = $("<li></li>").clone();
-    task.data("id", id).data("rank", rank).html(text).addClass("task").dblclick(function() {
-      return dblClickHandler(task);
+    task.data("id", id).data("rank", rank).html(text).addClass("task").click(function(e) {
+      task[0].designMode = "on";
+      task.attr("contentEditable", "true");
+      console.log("Editing mode on");
+      $("#editSwitch").hide();
+      task.focus();
+      return task.blur(function() {
+        return blurHandler(task);
+      });
+      /*
+      			#FIXME: This sucks to use a global
+      			# We're using this to keep track of the editable item
+      			window.taskHoveredId = id
+      			#console.log("Hovered over: " + window.taskHoveredId)
+      			
+      			# Show edit icon
+      			# Position of the edit link is to the left of the task
+      			taskPos = $("#taskList").position()
+      			taskY = task.position().top
+      			console.log("Pos: ", taskPos)
+      			$("#editSwitch").css({"top": taskY, "left":taskPos.left})
+      							.show()
+      */
+
     }).addClass("ui-state-default");
     return task;
   };
@@ -136,6 +158,16 @@ Future: 	Completed tasks should be archived into a different UI element or
     return children;
   };
 
+  getTaskFromID = function(id) {
+    var first, tasks, tasks_found;
+    tasks = getTasksFromUI();
+    tasks_found = _.reject(tasks, function(t) {
+      return t.data("id") !== id;
+    });
+    first = tasks_found[0];
+    return first;
+  };
+
   tasksExist = function() {
     var ids;
     ids = Object.keys(localStorage);
@@ -195,6 +227,22 @@ Future: 	Completed tasks should be archived into a different UI element or
     return storeTasks(tasks);
   };
 
+  dblClickInlineHandler = function(task) {
+    task[0].designMode = "on";
+    console.log("Editing mode on");
+    task.attr("contentEditable", "true");
+    return task.blur(function() {
+      return blurHandler(task);
+    });
+  };
+
+  blurHandler = function(task) {
+    task[0].designMode = "off";
+    task.attr("contentEditable", "false");
+    console.log("Editing mode off");
+    return store(task);
+  };
+
   dblClickHandler = function(task) {
     var bottoms, id, rank, tasks;
     id = task.data("id");
@@ -207,9 +255,7 @@ Future: 	Completed tasks should be archived into a different UI element or
   };
 
   $(function() {
-    $("#tasks").sortable().bind("sortstop", function(e, ui) {
-      return sortStopHandler(e, ui);
-    });
+    $("#tasks").sortable();
     $("#todotext").focus();
     $("#todotext").keydown(function(e) {
       var enterPressed, id, isBlank, rank, task, text;
@@ -226,6 +272,19 @@ Future: 	Completed tasks should be archived into a different UI element or
           return store(task);
         }
       }
+    });
+    $("#editSwitch").bind("click", function() {
+      var task, taskId;
+      taskId = window.taskHoveredId;
+      task = getTaskFromID(taskId);
+      task[0].designMode = "on";
+      task.attr("contentEditable", "true");
+      console.log("Editing mode on");
+      $("#editSwitch").hide();
+      task.focus();
+      return task.blur(function() {
+        return blurHandler(task);
+      });
     });
     return loadFromStorage();
   });
